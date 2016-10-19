@@ -1,11 +1,24 @@
 #include <stdio.h>
+
 int main(){
+    
     int c, nl, nw;
+    
     nl = nw = 0;
-    while ((c = getchar() )  !=EOF)
+    
+    while ((c = getchar() )  !=EOF){
+        
         if (c == '\n')
+            
             ++nl;
+        
         if ( c ==' ' || c == '\n' || c =='\t') 
-                  ++nw;
+                  
+            ++nw;
+ 
+    };   
     printf ("%d %d\n", nl, nw);
+
+    return0;
+
 }  

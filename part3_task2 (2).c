@@ -1,21 +1,33 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
 #include <stdlib.h>
-pid_t pid;
-int main(void){
-        int i, n, parrent, m,P;
-        scanf("%d", &n);
-        parrent=m=getpid();
-        printf("My PID is %d\n",m);
-        for (i=0; i<(n/2); ++i){
-            if (m==parrent){
-                pid = fork();
-                m=getppid();
-                P=getpid();
-                printf("My PID is %d\n",P);
-	        printf("End of child's process\n");
-                exit(1);
-            };
-        };
-} 
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+int main(){
+	pid_t pid = fork();
+	int PID;
+	int status = 1;
+	
+	if (pid < 0) {
+		perror("fork");
+		exit(-1);
+	};	
+	if (pid > 0) {
+		while(pid > 0) {
+			while(1) {
+				waitpid(pid, &status, 0);
+				if(status == 0) {
+					pid = fork();
+					break;
+				}
+				status = 0;
+			}
+		}	
+	}
+	if (pid == 0) {
+		while(getppid() != 1000);
+		execl("t", "t", NULL);
+	}
+	return 0;
+}
